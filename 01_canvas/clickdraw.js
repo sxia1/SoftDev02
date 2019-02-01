@@ -2,9 +2,11 @@
   WitchBolt
   Sophia Xia, Hui Min Wu
   SoftDev2 pd8
-  K00 -- I See a Red Door...
-  2018-01-30
+  K01 -- ...and I want to Paint It Better
+  2018-01-31
 */
+
+//preventDefault(): used to stop default undesired behaviors when a certain event occurs
 
 var mode = 1;
 var c = document.getElementById("slate");
