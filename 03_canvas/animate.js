@@ -2,7 +2,7 @@
     TheWarlocks
     Sophia Xia, Thomas Zhao
     SoftDev2 pd8
-    K03 --
+    K03 -- They lock us in the tower whenever we get caught ...which is often
     2019-02-04
 */
 
@@ -13,6 +13,7 @@ var ctx = c.getContext("2d");
 var requestId = 0;
 var radius = 0;
 var growing = true;
+var clicked = false;
 ctx.fillStyle = 'green';
 
 var clear = function(e){
@@ -20,17 +21,19 @@ var clear = function(e){
 };
 
 var drawDot = function(){
+    clicked = true;
     if(c.width/2 == radius){
 	growing = !growing;
     }
-    if(0 == radius){
+    if(radius == 0 && !growing){
 	growing = !growing;
     }
+    clear();
     ctx.beginPath();
     ctx.arc(c.width/2, c.height/2, radius, 0, 2*Math.PI);
     ctx.stroke();
     ctx.fill();
-    requestId = window.requestAnimationFrame();
+    requestId = window.requestAnimationFrame(drawDot);
     if(growing){
 	radius ++;
     }
@@ -41,10 +44,15 @@ var drawDot = function(){
 
 var stopIt = function(){
     console.log(requestId);
-    //ctx.cancelAnimationFrame(requestId);
+    window.cancelAnimationFrame(requestId);
+    clicked = !clicked;
 };
 
 var dotButton = document.getElementById("circle");
 var stopButton = document.getElementById("stop");
-dotButton.addEventListener('click', drawDot);
+dotButton.addEventListener('click', function(){
+    if(!clicked){
+	drawDot();
+    }
+});
 stopButton.addEventListener('click', stopIt);
