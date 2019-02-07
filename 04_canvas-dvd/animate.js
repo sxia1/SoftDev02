@@ -21,12 +21,7 @@ var radius = 0;
 var growing = true;
 ctx.fillStyle = 'green';
 
-//DVD ANIMATION variables
-var rectX, rectY, xVel, yVel;
-var rectWidth = 100;
-var rectHeight = 50;
-var logo = new Image();
-logo.src = "logo_dvd.jpg";
+
 
 //Clears the canvas
 var clear = function(e){
@@ -58,29 +53,31 @@ var drawDot = function(){
 
 // Sets up variables necessary for the DVD bouncing thing
 var dvdLogoSetup = function(){
-    rectX = Math.floor(Math.random() * (c.width - rectWidth));
-    rectY = Math.floor(Math.random() * (c.height - rectHeight));
-    xVel = 1;
-    yVel = 1;
-
-    bounce(); 
-}
-
-// Causes the movement of the image and its bouncing
-var bounce = function(){
-    stopIt();
-
-    clear();
-    ctx.drawImage(logo, rectX, rectY, rectWidth, rectHeight);
-    requestIdDvd = window.requestAnimationFrame(bounce);
-    if(rectX == c.width -rectWidth || rectX == 0){
-	xVel = xVel * -1;
+    var rectWidth = 100;
+    var rectHeight = 50;
+    var rectX = Math.floor(Math.random() * (c.width - rectWidth));
+    var rectY = Math.floor(Math.random() * (c.height - rectHeight))
+    var xVel = 1;
+    var yVel = 1;
+    var logo = new Image();
+    logo.src = "logo_dvd.jpg";
+    
+    //bounce
+    var bounce = function(){
+	stopIt();
+	clear();
+	ctx.drawImage(logo, rectX, rectY, rectWidth, rectHeight);
+	requestIdDvd = window.requestAnimationFrame(bounce);
+	if(rectX == c.width -rectWidth || rectX == 0){
+	    xVel = xVel * -1;
+	}
+	if(rectY == c.height -rectHeight || rectY == 0){
+	    yVel = yVel * -1;
+	}
+	rectX += xVel;
+	rectY += yVel;
     }
-    if(rectY == c.height -rectHeight || rectY == 0){
-	yVel = yVel * -1;
-    }
-    rectX += xVel;
-    rectY += yVel;
+    bounce();
 }
 
 // Halts all animations
