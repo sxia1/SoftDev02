@@ -8,18 +8,20 @@
 
 //preventDefault(): used to stop default undesired behaviors when a certain event occurs
 
+//CANVAS
 var c = document.getElementById("playground");
 var ctx = c.getContext("2d");
+
+//REQUEST ID
 var requestId = 0;
 var requestIdDvd = 0;
+
+//CIRCLE ANIMATION
 var radius = 0;
 var growing = true;
-var clicked = false;
+
+//DVD ANIMATION
 var clickedDvd = false;
-var x = 0;
-var y = 0;
-var xVel = 1;
-var yVel = 1;
 
 ctx.fillStyle = 'green';
 
@@ -28,8 +30,8 @@ var clear = function(e){
 };
 
 var drawDot = function(){
-    clicked = true;
-    clickedDvd = false;
+    stopIt();
+    //window.cancelAnimationFrame(requestId);
     if(c.width/2 == radius){
 	growing = !growing;
     }
@@ -51,46 +53,61 @@ var drawDot = function(){
 };
 
 var dvdLogoSetup = function(){
-    window.cancelAnimationFrame(requestId);
+    if(!clickedDvd){
+	var rectX = Math.floor(Math.random() * (c.width - rectWidth));
+	var rectY = Math.floor(Math.random() * (c.height - rectHeight));
+	var xVel = 1;
+	var yVel = 1;
+    }
     var rectWidth = 100;
-    var rectHeight = 100;
-    var rectX = Math.floor(Math.random * (c.width - rectWidth));
-    var rectX = Math.floor(Math.random * (c.height - rectHeight));
-    var xVel = 1;
-    var yVel = 1;
+    var rectHeight = 50;
     var logo = new Image();
     logo.src = "logo_dvd.jpg";
-    //ctx.drawImage(?);
+    clickedDvd = true;
+    stopIt();
+    //console.log(x, y);
+    //window.cancelAnimationFrame(requestIdDvd);
+    clear();
+    ctx.drawImage(logo, rectX, rectY, rectWidth, rectHeight);
+    requestIdDvd = window.requestAnimationFrame(dvdLogoSetup);
+    if(rectX == c.width -rectWidth || rectX == 0){
+	xVel = xVel * -1;
+    }
+    if(rectY == c.height -rectHeight || rectY == 0){
+	yVel = yVel * -1;
+    }
+    rectX += xVel;
+    rectY += yVel;
 }
 
 var bounce = function(){
-    clicked = false;
-    clickedDvd = true;
+    stopIt();
     //console.log(x, y);
+    //window.cancelAnimationFrame(requestIdDvd);
     clear();
-    ctx.fillRect(x, y, 50, 50);
+    ctx.drawImage(logo, rectX, rectY, rectWidth, rectHeight);
     requestIdDvd = window.requestAnimationFrame(bounce);
-    x += xVel;
-    y += yVel;
+    if(rectX == c.width -rectWidth || rectX == 0){
+	xVel = xVel * -1;
+    }
+    if(rectY == c.height -rectHeight || rectY == 0){
+	yVel = yVel * -1;
+    }
+    rectX += xVel;
+    rectY += yVel;
 }
 
 var stopIt = function(){
     console.log(requestId);
     window.cancelAnimationFrame(requestId);
     window.cancelAnimationFrame(requestIdDvd);
-    clicked = false;
-    clickedDvd = false;
 };
 
 var dotButton = document.getElementById("circle");
-dotButton.addEventListener('click', function(){
-    if(!clicked){
-	drawDot();
-    }
-});
+dotButton.addEventListener('click', drawDot);
 
 var stopButton = document.getElementById("stop");
 stopButton.addEventListener('click', stopIt);
 
 var dvdButton = document.getElementById("dvd");
-dvdButton.addEventListener('click', bounce);
+dvdButton.addEventListener('click', dvdLogoSetup);
