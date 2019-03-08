@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Yote</title>
+  </head>
+  <body>
+    <form action="/" method="post">
+      Inserto IP: <br>
+      <input type="text" name="ip" value=""> <br><br><br>
+      What is your query?<br>
+      ID: <input type="number" name="id" value=""> <br>
+      <button type="submit" name="button">Submit</button>
+    </form>
+    
+    <br> <br>
+    {% set flash = get_flashed_messages() %}
+    {{flash[0]}}
+    {% if data %}
+      Here are your results: <br>
+      ID: {{id}} <br>
+      Name: {{name}} <br>
+      Type(s):
+        {% for t in type %}
+          {{t}}
+        {% endfor %} <br>
+      Weaknesses:
+        {% for w in weaknesses %}
+          {{w}}
+        {% endfor %} <br>
+      Image: <img src={{pokemon_img}}>
+    {% endif %}
+  </body>
+</html>
