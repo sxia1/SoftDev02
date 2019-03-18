@@ -1,16 +1,15 @@
 var pic = document.getElementById("vimage")
+var rect = pic.getBoundingClientRect();
 
 pic.addEventListener('click', function(e){
     draw(e);
 });
 
 var draw = function(e){
-    var x = e.offsetX;
-    var y = e.offsetY;
+    var x = e.clientX - rect.left;
+    var y = e.clientY - rect.top;
     console.log(x, y);
     circle(x, y);
-    console.log(e.clientX - e.offsetX);
-    console.log(e.clientY - e.offsetY);
 }
 
 var circle = function(x, y){
@@ -22,10 +21,8 @@ var circle = function(x, y){
     c.setAttribute("fill", "blue");
     pic.appendChild(c);
     c.addEventListener('click', function(e){
+	e.stopPropagation();
 	change_color(e, c);
-    });
-    c.addEventListener('click', function(e){
-	move_random(e, c);
     });
 }
 
@@ -33,18 +30,18 @@ var change_color = function(e, c){
     if(c.getAttribute("fill") == "blue"){
 	c.setAttribute("fill", "green");
     }
-    else if(c.getAttribute("fill") == "green"){
-	pic.removeChild(c);
-	var circ = circle(100, 100);
-	pic.appendChild(circ);
-    }
+    c.addEventListener('click', function(e){
+	e.stopPropagation();
+	move_circle(e, c);
+    });
 }
 
-var move_random = function(e, c){
+var move_circle = function(e, c){
     if(c.getAttribute("fill") == "green"){
 	pic.removeChild(c);
-	//var circ = circle(100, 100);
-	//pic.appendChild(circ);
+	var nx = Math.random()*rect.width;
+	var ny = Math.random()*rect.height;
+	circle(nx, ny);
     }
 }
 
