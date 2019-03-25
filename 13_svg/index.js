@@ -12,7 +12,8 @@ var chart = d3.select(".chart")
     .attr("width", width);
 
 //using data from tsv file
-//V3 uses d3.tsv("data.tsv", type, function(error, data) {
+//V3 uses
+//d3.tsv("data.tsv", type, function(error, data) {
 d3.tsv("data.tsv", type).then(function(data) {
     x.domain([0, d3.max(data, function(d) { return d.value; })]);
 
