@@ -1,3 +1,10 @@
+/*
+    Sophia Xia
+    SoftDev2 pd8
+    K11 -- Ask Circles [Change || Die] …While On The Go
+    2019-03-17
+*/
+
 var pic = document.getElementById("vimage")
 var rect = pic.getBoundingClientRect();
 
