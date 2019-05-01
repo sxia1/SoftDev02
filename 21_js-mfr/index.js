@@ -1,7 +1,6 @@
 d3.json('https://data.cityofnewyork.us/resource/ihfw-zy9j.json').then(function(data){
-    demographics = data;
-    average(demographics);
-    median(demographics);
+    average(data);
+    median(data);
 });
 
 function average(dem, type){
@@ -23,14 +22,8 @@ function median(dem){
 	list.push(parseFloat(dem[i].asian_per));
     }
     //quickselect
-    var list = list.reduce(function(t, c, i){
-	if(i == t.length -1){return t[t.length/2];}
-	for(var j = 0; j < i; j ++){
-	    if(t[j] >= c && t[j+1] <= c){
-		
-	    }
-	}
-	return r;
+    list.sort(function(a, b){
+	return a -b
     });
     console.log(list);
     med = list[list.length/2];
